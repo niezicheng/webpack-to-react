@@ -32,8 +32,8 @@ module.exports = {
       },
       {
         // 对css文件先后使用css-loader和style-loader，导入顺序从右向左
-        // css-loader：将导入项目的css变为js模块
-        // style-loader: 页面打开时，利用js将css模块内的样式注入到html头部的style标签内
+        // css-loader：将导入项目的css变为js模块，打包到main.js内
+        // style-loader: 在main.js内提供了一个能将css动态插入到html内的方法
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
