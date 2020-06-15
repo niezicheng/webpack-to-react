@@ -14,7 +14,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require("webpack");
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
@@ -38,12 +38,12 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /^\.css$/,
+        test: /\.css$/,
         // 这里使用MiniCssExtractPlugin.loader替代style-loader
         use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
-        test: /^\.(png|jpg|jpeg|svg|gif)$/,
+        test: /\.(png|jpg|jpeg|svg|gif)$/,
         use: {
           // 这里使用url-loader替代file-loader
           loader: 'url-loader',

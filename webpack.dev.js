@@ -24,11 +24,11 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /^\.css$/,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /^\.(png|jpg|jpeg|svg|gif)$/,
+        test: /\.(png|jpg|jpeg|svg|gif)$/,
         use: 'file-loader'
       }
     ]
