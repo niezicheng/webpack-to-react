@@ -1,11 +1,19 @@
 /**
- * 将css样式从main.js内抽离到单独的.css文件 【使用mini-css-extract插件提供的loader替代style-loader】
- * 缓存处理
- * 将第三方库和webpack的runtime从main.js内抽离出来
- * js、css、html代码压缩
+ * 将css样式从main.js内抽离到单独的.css文件   【使用mini-css-extract插件提供的loader替代style-loader】
+ * 缓存处理  【output文件名添加contentHash根据打包文件内容产生并改变，浏览器缓存不同hash版本文件来调整访问资源】
+ * 将第三方库和webpack的runtime从main.js内抽离出来（不希望每次业务的改动导致这些模块代码也重新加载）
+ * 【
+ *    1、optimization.runtimeChunk 选项设置为single，可以将webpack runtime抽离出来
+ *    2、optimization.splitChunks 抽离出第三方库 【以前版本使用commons-chunk-plugin】
+ *  】
+ * js、css、html代码压缩 【使用optimization.minimizer进行配置】
  * 使用source-map替代inline-source-map
- * 懒加载（lazy loading）
- * 每次打包前先清空dist目录
+ * 【
+ *    1、inline-source-map会将map内敛到代码内，用户会连同资源将map一起下载
+ *    2、source-map会给打包后的每个js单独生成.map文件
+ *  】
+ * 懒加载（lazy loading）【webpack4默认支持，不需配置，开发时使用dynamic import按需引入模块，需要babel插件的支持】
+ * 每次打包前先清空dist目录 【clean-webpack-plugin在打包前清空dist目录】
  */
 // 生产模式环境资源配置
 // 使用webpack-merge合并common配置，使用webpack-dev-server开启开发服务器
@@ -28,7 +36,7 @@ module.exports = merge(common, {
   output: {
     // 添加contentHash, 为配置entry入口名称, 默认取名为main则会生成main.xxx.js
     filename: '[name].[contentHash].js',
-    // 通过splitChunk抽离出来的js文件名格式
+    // 通过splitChunk抽离出来【第三方库】的js文件名格式
     chunkFilename: '[name].[contentHash].chunk.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
@@ -68,7 +76,7 @@ module.exports = merge(common, {
       chunks: 'all',
       // 最大初始请求数量
       maxInitialRequests: Infinity,
-      // 抽离体积大于80kb的chunk，配合上面的mmaxInitialRequests: Infinity
+      // 抽离体积大于80kb的chunk，配合上面的 maxInitialRequests: Infinity
       // 小于80kb的所有chunk会被打包到一起，这样可以减少初始请求数
       minSize: 80 * 1024,
       // 抽离被多个入口引用次数大于等于1的chunk
@@ -76,7 +84,6 @@ module.exports = merge(common, {
       cacheGroups: {
         // 抽离node_module下面的第三方库
         vendor: {
-          // test: /[\\/]node_modules[\\/](.*?)([\\/]|$)/
           test: /[\\/]node_modules[\\/]/,
           // 根据路径获得第三方库的名称
           // 并将抽离的chunk以"vendor_thirdPartyLibrary"格式命名
