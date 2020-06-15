@@ -16,6 +16,13 @@ module.exports = {
         // 使用include使webpack只对src下面的js、jsx文件进行babel转译， 加快webpack打包的速度
         include: path.resolve(__dirname, 'src'),
         use: 'babel-loader'
+      },
+      {
+        enforce: 'pre',
+        test: /.\jsx?$/,
+        // 使用include使webpack只对src下面的js、jsx文件进行babel转译， 加快webpack打包的速度
+        include: path.resolve(__dirname, 'src'),
+        use: 'eslint-loader'
       }
     ]
   }
