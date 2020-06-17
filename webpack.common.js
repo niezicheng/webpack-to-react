@@ -18,7 +18,7 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        enforce: 'pre',
+        enforce: 'pre', // 标识应用这些规则，即使规则覆盖【前置】
         test: /.\jsx?$/,
         // 使用include使webpack只对src下面的js、jsx文件进行babel转译， 加快webpack打包的速度
         include: path.resolve(__dirname, 'src'),

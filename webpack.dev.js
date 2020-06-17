@@ -17,6 +17,7 @@ module.exports = merge(common, {
     publicPath: '/'
   },
   devServer: {
+    port: 3000, // 服务启动端口号
     hot: true, // 开启热更新
     // 单页面应用前端路由使用history模式时，配置该选项当webpack-dev-server服务器接受请求路径不存在资源时，它将返回index.html而不是404页面
     historyApiFallback: true
@@ -26,7 +27,18 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2, // 当打包时scss文件中碰到导入当scss文件，从前两个loader开始执行
+              modules: true // 开启css模块化
+            }
+          },
+          'postcss-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.(png|jpg|jpeg|svg|gif)$/,
