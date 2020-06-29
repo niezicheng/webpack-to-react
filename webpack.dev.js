@@ -19,6 +19,7 @@ module.exports = merge(common, {
   devServer: {
     port: 3000, // 服务启动端口号
     hot: true, // 开启热更新
+    open: true, // 自动打开浏览器运行
     // 单页面应用前端路由使用history模式时，配置该选项当webpack-dev-server服务器接受请求路径不存在资源时，它将返回index.html而不是404页面
     historyApiFallback: true
   },
@@ -36,6 +37,7 @@ module.exports = merge(common, {
               modules: true // 开启css模块化
             }
           },
+          // 样式文件中样式添加不同浏览器兼容前缀
           'postcss-loader',
           'sass-loader'
         ]

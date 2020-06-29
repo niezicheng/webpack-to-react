@@ -6,7 +6,11 @@ module.exports = {
   entry: './src/index.jsx',
   resolve: {
     // 引入文件时省略扩展名
-    extensions: ['.js', '.json', '.jsx']
+    extensions: ['.js', '.json', '.jsx'],
+    // 配置路径别名
+    alias: {
+      '@': path.resolve('src')
+    }
   },
   // 资源加载loader
   module: {

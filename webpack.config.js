@@ -18,7 +18,11 @@ module.exports = {
   },
   resolve: {
     //  设置扩展，在导入文件是可以省略文件扩展名
-    extensions: ['.js', '.json', '.jsx']
+    extensions: ['.js', '.json', '.jsx'],
+    // 配置路径别名
+    alias: {
+      '@': path.resolve('src')
+    }
   },
 
   // 配置资源加载loader
@@ -35,7 +39,9 @@ module.exports = {
         // css-loader：将导入项目的css变为js模块，打包到main.js内
         // style-loader: 在main.js内提供了一个能将css动态插入到html内的方法
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        // 使用CSS Module 模块化处理，针对每个就是文件，其引入的css文件只对该文件生效【类似vue中scoped属性作用】
+        // CSS Module原理： 对每个类名按照一定规则进行转换（加上hash值），保证其唯一性，但是只对className和id进行转换
+        use: ['style-loader', 'css-loader?modules']
       },
       {
         // 使用file-loader加载图片文件
